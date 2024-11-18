@@ -13,36 +13,56 @@
   
    if its more than 500,000, then the tax is tax from Slab 0, Slab 1, Slab 2 and 30% of the amount exceeding 500,000.*/
 
-
-
-
-
-
 #include<iostream>
 using namespace std;
 
-int taxCaluculator()
+void taxCaluculator()
 {
-  int grosssalary,  totalsaving;
-  cout<<"grosssalary:"; cin>>grosssalary;
-  cout<<"totalsaving:"; cin>>totalsaving; //saving shouldn't be more than 1,00,
-  int taxableincome=grosssalary-totalsaving;
-  if(taxableincome<=100000)
+  // Taking Input
+  const double maxsaving = 100000; 
+  double grosssalary, totalsaving,taxableincome,tax=0;
+  cout<<"Enter your gross salary : "; 
+  cin>>grosssalary;
+  cout<<"Enter your total savings : "; 
+  cin>>totalsaving; 
+  
+  // Validating the salary and savings are non-negative
+  if (grosssalary < 0 || totalsaving < 0 ) {
+    cout << "Invalid input! Salary and Savings must be non-negative. ";
+  }
+
+  // Calculating Taxable Income and Validating Taxable Income If Savings exceed 100000
+  if (totalsaving<=maxsaving){
+   taxableincome=grosssalary-totalsaving;
+   }  
+  else if (totalsaving>maxsaving){
+   taxableincome=grosssalary-maxsaving; // Since Maximum deduction of savings can be Rs. 100000
+   }  
+  
+   if(taxableincome>500000)
   {
-    cout<<"You have no taxes to pay, chill you poor:\n";
+    taxableincome = (taxableincome-500000)*0.3;
+    tax += taxableincome;
+    taxableincome=500000;
+  }
+   else if(taxableincome>200000 && taxableincome<=500000)
+  {
+    taxableincome = (taxableincome-200000)*0.2;
+      tax += taxableincome;
+    taxableincome=200000;
   }
   else if(taxableincome>100000 && taxableincome<=200000)
   {
-    cout<<"your tax amount is:"<<taxableincome*0.1;
+    taxableincome = (taxableincome-100000)*0.1;
+      tax += taxableincome;
+    taxableincome=100000;
   }
-  else if(taxableincome>200000 && taxableincome<=500000)
+  else if(taxableincome<=100000)
   {
-    cout<<"Your tax amount is:"<<10000+((taxableincome-200000)*.2);
+    tax += 0; 
   }
-  else if(taxableincome>500000)
-  {
-    cout<<"Your tax amount is:"<<10000+60000+((taxableincome-500000)*.3) ;
-  }
+  
+  cout << "You have a tax of Rs. " << tax;
     
 }
 
